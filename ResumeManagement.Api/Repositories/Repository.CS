@@ -1,4 +1,5 @@
-﻿namespace ResumeManagement.Api.Repositories
+﻿using Microsoft.EntityFrameworkCore;
+namespace ResumeManagement.Api.Repositories
 {
     public class Repository<T>(AppDbContext context) : IRepository<T> where T : class
     {

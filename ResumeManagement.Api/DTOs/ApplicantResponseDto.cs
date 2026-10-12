@@ -12,7 +12,7 @@ public class ApplicantResponseDto
 
     public string Location { get; set; } = string.Empty;
 
-    public bool HasResume { get; set; }
+    public string? ResumeUrl { get; set; }
 
     public DateTime CreatedAt { get; set; }
 

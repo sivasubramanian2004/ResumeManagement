@@ -1,5 +1,6 @@
 ﻿using ResumeManagement.Api.Entities;
-
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
 namespace ResumeManagement.Api.FluentAPI
 {
     public class ApplicantConfiguration : IEntityTypeConfiguration<Applicant>
