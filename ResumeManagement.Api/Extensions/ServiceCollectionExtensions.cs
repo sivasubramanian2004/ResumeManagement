@@ -1,8 +1,9 @@
 ﻿using Microsoft.OpenApi;
+using ResumeManagement.Api.Helpers;
 using ResumeManagement.Api.Interfaces;
-using ResumeManagement.Api.Services;
 using ResumeManagement.Api.Repositories;
-
+using ResumeManagement.Api.Services;
+using ResumeManagement.Api.Utils;
 namespace ResumeManagement.Api.Extensions
 {
     public static class ServiceCollectionExtensions
@@ -17,9 +18,13 @@ namespace ResumeManagement.Api.Extensions
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddHttpContextAccessor();
+            services.AddScoped<UrlService>();
 
 
             services.AddScoped<IApplicantService, ApplicantService>();
+            services.Configure<FileSettings>(configuration.GetSection("FileSettings"));
+
+            services.AddScoped<IFileStorageService, FileStorageService>();
 
             // =====================================
             // 2. SWAGGER

@@ -35,5 +35,35 @@ namespace ResumeManagement.Api.Controllers
 
             return StatusCode(201, response);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetApplicant() {
+
+            var result = await _applicantService.GetAllApplicantsAsync();
+
+            var response = new ApiResponse<List<ApplicantResponseDto>>
+            {
+
+                Success = true,
+                Message = "Application Retrieved Succesffuly",
+                Data = result,
+                Errors = null,
+                StatusCode = 200
+            };
+
+            return Ok(response);
+
+        }
+
+        [HttpGet("{id:int}/resume")]
+        public async Task<IActionResult> DownloadApplicantResume(int id)
+        {
+            var file = await _applicantService.DownloadApplicantResumeAsync(id);
+
+            return File(
+                file.FileStream,
+                file.ContentType,
+                file.FileName);
+        }
     }
 }
