@@ -361,3 +361,11 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Uploaded resume files
+Uploads/

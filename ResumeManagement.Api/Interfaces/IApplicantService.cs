@@ -11,7 +11,10 @@ namespace ResumeManagement.Api.Interfaces
 
         Task<byte[]> ExportApplicantsToExcelAsync();
 
-        Task  DeleteApplicantAsync(int id);
+        Task<byte[]> ExportApplicantsToExcelAsync(int id);
+
+
+        Task DeleteApplicantAsync(int id);
 
         Task UpdateApplicantAsync(int id, CreateApplicantDto dto);
 

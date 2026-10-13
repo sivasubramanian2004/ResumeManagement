@@ -323,5 +323,55 @@ namespace ResumeManagement.Api.Services
             return stream.ToArray();
 
         }
+
+        public async Task<byte[]> ExportApplicantsToExcelAsync(int id) {
+
+
+            var applicant = await _applicant.TableNoTracking
+                             .Where(a => !a.IsDeleted && a.Id == id)
+                             .Select(a => new ApplicantResponseDto
+                             {
+                                 Id = a.Id,
+                                 FullName = a.FullName,
+                                 Email = a.Email,
+                                 Mobile = a.Mobile,
+                                 Location = a.Location,
+                                 CreatedAt = a.CreatedAt,
+
+                             })
+                             .FirstOrDefaultAsync();
+
+            if (applicant == null)
+                throw new InvalidOperationException("Applicant not found.");
+
+            using var workbook = new XLWorkbook();
+
+            var worksheet = workbook.Worksheets.Add("Applications");
+
+            // Header
+            worksheet.Cell(1, 1).Value = "ApplicationID";
+            worksheet.Cell(1, 2).Value = "First Name";
+            worksheet.Cell(1, 3).Value = "Email";
+            worksheet.Cell(1, 4).Value = "Mobile";
+            worksheet.Cell(1, 5).Value = "Location";
+            worksheet.Cell(1, 6).Value = "Created At";
+
+           worksheet.Cell(2, 1).Value = applicant.Id;
+           worksheet.Cell(2, 2).Value = applicant.FullName;
+           worksheet.Cell(2, 3).Value = applicant.Email;
+           worksheet.Cell(2, 4).Value = applicant.Mobile;
+           worksheet.Cell(2, 5).Value = applicant.Location;
+           worksheet.Cell(2, 6).Value = applicant.CreatedAt;
+            
+
+            worksheet.Columns().AdjustToContents();
+
+            using var stream = new MemoryStream();
+
+            workbook.SaveAs(stream);
+
+            return stream.ToArray();
+
+        }
     }
 }
