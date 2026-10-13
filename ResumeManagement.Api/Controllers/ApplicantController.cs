@@ -82,7 +82,7 @@ namespace ResumeManagement.Api.Controllers
                 fileName);
 
         }
-        [HttpGet("export/excel")]
+        [HttpGet("Download/excel")]
         public async Task<IActionResult> ExportApplicantsToExcel()
         {
             var excelBytes = await _applicantService.ExportApplicantsToExcelAsync();
