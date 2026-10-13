@@ -71,7 +71,18 @@ namespace ResumeManagement.Api.Controllers
                         
         }
 
-        [HttpGet("export/excel")]
+        [HttpGet("export/excel{id:int}")]
+        public async Task<IActionResult> ExportApplicantsToExcel(int id)
+        {
+            var excelBytes = await _applicantService.ExportApplicantsToExcelAsync(id);
+
+            var fileName = $"Applicants_{DateTime.UtcNow:yyyyMMdd_HHmmss}.xlsx";
+
+            return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                fileName);
+
+        }
+        [HttpGet("Download/excel")]
         public async Task<IActionResult> ExportApplicantsToExcel()
         {
             var excelBytes = await _applicantService.ExportApplicantsToExcelAsync();
