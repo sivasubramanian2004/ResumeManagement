@@ -9,5 +9,11 @@ namespace ResumeManagement.Api.Interfaces
 
         Task<(Stream FileStream, string ContentType, string FileName)> DownloadApplicantResumeAsync(int id);
 
+        Task<byte[]> ExportApplicantsToExcelAsync();
+
+        Task  DeleteApplicantAsync(int id);
+
+        Task UpdateApplicantAsync(int id, CreateApplicantDto dto);
+
     }
 }

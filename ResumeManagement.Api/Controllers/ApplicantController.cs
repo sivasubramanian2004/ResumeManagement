@@ -36,7 +36,7 @@ namespace ResumeManagement.Api.Controllers
             return StatusCode(201, response);
         }
 
-        [HttpGet]
+        [HttpGet("GetApplicants")]
         public async Task<IActionResult> GetApplicant() {
 
             var result = await _applicantService.GetAllApplicantsAsync();
@@ -55,15 +55,67 @@ namespace ResumeManagement.Api.Controllers
 
         }
 
-        [HttpGet("{id:int}/resume")]
+        [HttpGet("{id:int}/DownLoadresume")]
         public async Task<IActionResult> DownloadApplicantResume(int id)
         {
             var file = await _applicantService.DownloadApplicantResumeAsync(id);
 
-            return File(
-                file.FileStream,
-                file.ContentType,
-                file.FileName);
+            //Response.Headers.ContentDisposition = "inline";
+            // document view only
+           // return File(file.FileStream, file.ContentType);
+
+
+            //document view and download only
+
+            return File(  file.FileStream, file.ContentType,file.FileName);
+                        
+        }
+
+        [HttpGet("export/excel")]
+        public async Task<IActionResult> ExportApplicantsToExcel()
+        {
+            var excelBytes = await _applicantService.ExportApplicantsToExcelAsync();
+
+            var fileName = $"Applicants_{DateTime.UtcNow:yyyyMMdd_HHmmss}.xlsx";
+
+            return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                fileName);
+
+        }
+        [HttpDelete("DeleteApplication{id:int}")]
+        public async Task<IActionResult> DeleteApplicant(int id) {
+
+            await _applicantService.DeleteApplicantAsync(id);
+
+            var response = new ApiResponse<object>
+            {
+                Success = true,
+                Message = "Application DeletedSuccesffuly",
+                Data = null,
+                Errors = null,
+                StatusCode = 200
+            };
+
+            return Ok(response);
+        
+        }
+        [HttpPut("UpdateApplicant{id:int}")]
+        public async Task<IActionResult> UpdateApplicant(int id, [FromForm] CreateApplicantDto dto) {
+
+            await _applicantService.UpdateApplicantAsync(id, dto);
+
+            var response = new ApiResponse<object>
+            {
+
+                Success = true,
+                Message = "Application Updated Succesffuly",
+                Data = null,
+                Errors = null,
+                StatusCode = 200
+            };
+
+            return Ok(response);
+
         }
     }
 }

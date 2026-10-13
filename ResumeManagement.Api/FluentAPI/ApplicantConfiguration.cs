@@ -24,7 +24,8 @@ namespace ResumeManagement.Api.FluentAPI
 
             builder.HasIndex(a => a.Email)
                 .IsUnique();
-                
+              
+
 
             builder.Property(a => a.Mobile)
                 .HasMaxLength(20)
