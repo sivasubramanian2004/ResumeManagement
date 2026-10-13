@@ -1,5 +1,6 @@
 ﻿using ResumeManagement.Api.Entities;
-
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
 namespace ResumeManagement.Api.FluentAPI
 {
     public class ApplicantConfiguration : IEntityTypeConfiguration<Applicant>
@@ -23,7 +24,8 @@ namespace ResumeManagement.Api.FluentAPI
 
             builder.HasIndex(a => a.Email)
                 .IsUnique();
-                
+              
+
 
             builder.Property(a => a.Mobile)
                 .HasMaxLength(20)

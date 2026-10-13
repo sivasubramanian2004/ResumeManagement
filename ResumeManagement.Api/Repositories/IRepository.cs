@@ -2,7 +2,6 @@
 {
     public interface IRepository<T> where T : class
     {
-
         Task SaveAsync();
 
         // Query
@@ -12,12 +11,7 @@
 
         Task AddAsync(T entity);
 
-        
-
         void UpdateEntity(T entity);
-
-        
-
         void DeleteEntity(T entity);
     }
 }
